@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three.js Text Pool</title>
+    <title>LOGO Homage 1</title>
     <style>
         body { margin: 0; overflow: hidden; background-color: #111; color: #fff; font-family: 'Inter', sans-serif; }
         canvas { display: block; }
@@ -17,23 +17,7 @@
             padding: 10px;
             background-color: rgba(0,0,0,0.2);
         }
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #444;
-            color: #fff;
-            border: 1px solid #666;
-            border-radius: 8px;
-            margin-top: 10px;
-            transition: background-color 0.3s, transform 0.1s;
-        }
-        button:hover {
-            background-color: #555;
-        }
-        button:active {
-            transform: scale(0.95);
-        }
+        
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,9 +26,7 @@
 <body>
 
     <div id="info">
-        <h1>Text Pool Demonstration</h1>
-        <p>Click the button to display a random word from the pool.</p>
-        <button id="changeTextBtn">New Word</button>
+        <h1>LOGO Homage</h1>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -58,8 +40,8 @@
         // This is the core array containing both ASCII characters and your commands.
         const textPool = [];
 
-        // 1. Populate with ASCII characters (Printable characters from 32 to 126)
-        for (let i = 32; i <= 126; i++) {
+        // 1. Populate with all standard ASCII characters (from 0 to 127)
+        for (let i = 0; i <= 127; i++) {
             textPool.push(String.fromCharCode(i));
         }
 
@@ -115,51 +97,6 @@
 
             // Start animation loop
             animate();
-        }
-
-        // --- TEXT CREATION FUNCTION ---
-        function createText() {
-            // If a text mesh already exists, remove it from the scene
-            if (textMesh) {
-                scene.remove(textMesh);
-                textMesh.geometry.dispose();
-                textMesh.material.dispose();
-            }
-
-            // Get a random word from the pool
-            const randomWord = textPool[Math.floor(Math.random() * textPool.length)];
-
-            // Font loading
-            const fontLoader = new THREE.FontLoader();
-            fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
-                const textGeometry = new THREE.TextGeometry(randomWord, {
-                    font: font,
-                    size: 3,
-                    height: 0.5,
-                    curveSegments: 12,
-                    bevelEnabled: true,
-                    bevelThickness: 0.1,
-                    bevelSize: 0.1,
-                    bevelOffset: 0,
-                    bevelSegments: 5
-                });
-
-                // Center the text geometry
-                textGeometry.computeBoundingBox();
-                const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
-                textGeometry.translate(-0.5 * textWidth, 0, 0);
-
-                // Material
-                const textMaterial = new THREE.MeshStandardMaterial({
-                    color: 0x00aaff, // A bright blue color
-                    metalness: 0.8,
-                    roughness: 0.2
-                });
-
-                // Mesh
-                textMesh = new THREE.Mesh(textGeometry, textMaterial);
-                scene.add(textMesh);
-            });
         }
 
         // --- UTILITY FUNCTIONS ---
